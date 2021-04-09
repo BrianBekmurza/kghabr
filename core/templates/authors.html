@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Авторы</h1>
+    <ol>
+    {% for author in authors %}
+        <li>{{author.nik}}</li>
+    {% endfor %}
+    </ol>
+{% endblock %}

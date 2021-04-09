@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{article.title}}</h1>
+    <p>{{article.text}}</p>
+    <p>Просмотры: {{ article.views }}</p>
+    <p>Просмотревшие пользовательи {{ article.readers.count }}:
+        <ol>
+            {% for u in article.readers.all %}
+            <li> {{ u.username}}</li>
+            {% endfor %}
+        </ol>
+    </p>
+    <p>Создано: {{ article.created_at }}</p>
+    <p>Изменено: {{ article.updated_at }}</p>
+    <p>
+        Автор:
+        <ul>
+            <li>Псевдоним - {{ article.author.nik }}</li>
+            <li>Логин  - {{ article.author.user.username }}</li>
+        </ul>
+    </p>
+    {% if article.picture %} 
+        <img src="{{ article.picture.url }}" width='300px'>
+    <br>
+    {% endif %}
+    {% for image in article.images.all %}
+        <img src="{{ image.img.url}}}" width='200px'>
+    {% endfor %}
+
+    <hr>
+    <a href="{% url 'article-edit' article.id%}">Редактировать</a>
+    <br>
+    <a href="{% url 'article_delete' article.id %}"> Удалить</a>
+    <br>
+    <a href="{% url 'article_hide' article.id %}"> Скрыть</a>
+{% endblock %}

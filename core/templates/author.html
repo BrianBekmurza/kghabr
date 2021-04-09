@@ -1,0 +1,14 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+    <h2>{{ user.username }}</h2>
+    <h2>{{ user.get_full_name }}</h2>
+    <h2>{{ author.nik }}</h2>
+    {% if author.photo %}
+        <div>
+            <img src="{{ author.photo.url }}" width='500px'>
+        </div>
+    {% endif %}
+
+{% endblock %}
