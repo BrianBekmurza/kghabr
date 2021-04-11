@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Article, Author
 from django.db.models import Q
+
 # Create your views here.
 
 # def first_article(request):
