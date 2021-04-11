@@ -39,8 +39,9 @@ def author_page(request, pk):
 def article_page(request, id):
     article = Article.objects.get(id=id)
     article.views += 1
-    article.readers.add(request.user)
-    article.save()
+    if request.user.is_authenticated:
+        article.readers.add(request.user)
+        article.save()
     return render(request, "article.html", {"article": article})
 
 def about(request):

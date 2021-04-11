@@ -7,7 +7,7 @@
     <p>Просмотревшие пользовательи {{ article.readers.count }}:
         <ol>
             {% for u in article.readers.all %}
-            <li> {{ u.username}}</li>
+            <li> {{ u.username }}</li>
             {% endfor %}
         </ol>
     </p>

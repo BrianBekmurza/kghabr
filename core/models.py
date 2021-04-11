@@ -18,7 +18,10 @@ class Article(models.Model):
         related_name="readed_articles",
         blank=True,
     )
-    updated_at = models.DateTimeField(auto_now_add=True, null=True)
+
+
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
     views = models.IntegerField(default=0, verbose_name=" Просмотры")
     created_at = models.DateTimeField(
         auto_now_add=True,
