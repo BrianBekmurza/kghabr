@@ -22,6 +22,7 @@ from core.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', sing_in, name='login'),
+    path('logout', sing_out, name='logout'),
     # path('article/', first_article, name='first-article-page'),
     path('', articles, name='articles'),
     path('article/<int:id>/', article_page, name='article'),

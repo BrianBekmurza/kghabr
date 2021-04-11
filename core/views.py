@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Q
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import Article, Author
 
 
@@ -17,6 +17,10 @@ def sing_in(request):
                 login(request, user)
                 return redirect('articles')
     return render(request, 'login.html')
+
+def sing_out(request):
+    logout(request)
+    return redirect('articles')
 
 # def first_article(request):
 #     article = Article.objects.first()
