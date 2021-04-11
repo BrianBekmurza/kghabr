@@ -1,9 +1,22 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Article, Author
 from django.db.models import Q
+from django.contrib.auth import authenticate, login
+from .models import Article, Author
+
 
 # Create your views here.
+
+def sing_in(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('articles')
+    return render(request, 'login.html')
 
 # def first_article(request):
 #     article = Article.objects.first()
