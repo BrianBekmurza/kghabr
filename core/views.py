@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Q
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from .models import Article, Author
 
-
+User = get_user_model()
 # Create your views here.
 
 def sing_in(request):
@@ -22,6 +22,23 @@ def sing_out(request):
     logout(request)
     return redirect('articles')
 
+def registration(request):
+    if request.method == "GET":
+        return  render(request, 'registration.html')
+    elif request.method == "POST":
+        username = request.POST.get('username')
+        password_1 = request.POST.get('password_1')
+        password_2 = request.POST.get('password_2')
+        if password_1 != password_2:
+            return render(request, 'registration.html', {'message': "passwords are different"})
+        elif User.objects.filter(username=username).exists():
+            return render(request, 'registration.html', {'message': 'lign is not free'})
+        else:
+            User.objects.create_user(
+                username = username,
+                password = password_1,
+            )
+            return redirect(sing_in)
 # def first_article(request):
 #     article = Article.objects.first()
 #     return render(
