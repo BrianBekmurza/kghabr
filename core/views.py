@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+
 from .models import Article, Author
+from .forms import ArticleForm
 
 User = get_user_model()
 # Create your views here.
@@ -104,7 +106,7 @@ def add_article(request):
         form = request.POST
         title = form.get("title")
         text = form.get("text")
-        picture = request.FILES.get('get')
+        picture = request.FILES.get('picture')
         # new_article = Article (title=title, text=text)
         # new_article.save()
 
@@ -113,7 +115,8 @@ def add_article(request):
         new_article.text = text
         new_article.picture = picture
         user = request.user
-        if not Author.objects.filter(user==user).exists():
+
+        if not Author.objects.filter(user=user).exists():
             author = Author(user=user, nik=user.username)
             author.save()
 
@@ -122,11 +125,31 @@ def add_article(request):
         new_article.save()
         return redirect(article_page, new_article.pk)
 
+
+def article_form(request):
+    context = {}
+
+    if request.method == "POST":
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save()
+            return redirect(article_page, article.id)
+
+    form = ArticleForm()
+    context['form'] = form
+    return render(request, 'form.html', context)
+
+def is_author(user):
+    return Author.objects.filter(user=user).exists()
+
+@user_passes_test(is_author)
 def delete_article(request, id):
     article = Article.objects.get(pk=id)
     article.delete()
     return HttpResponse("Статья успешно удалена")
 
+
+@permission_required('core.delete_article')
 def hide_article(request, id):
     article = Article.objects.get(id=id)
     article.is_active = False
