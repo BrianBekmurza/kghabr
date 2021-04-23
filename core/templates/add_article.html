@@ -4,11 +4,13 @@
 
 <div>
 
-    <form method="POST">{% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
     <input type="text" placeholder='Заголовок статьи' name="title" />
     <br><br>
     <textarea name="text" cols="30" rows="10" placeholder="Текст статьи"></textarea>
     <br> <br>
+    <input type="file" name='picture'>
+    <br><br>
     <button>кошуу</button>
     </form> 
 </div>

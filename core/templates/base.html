@@ -17,7 +17,9 @@
     <a href="{% url 'articles' %}">Статьи</a> |
     <a href="{% url 'top' %}">топ 3</a> |
     <a href="{% url 'about' %}">O сайте</a> |
-    <a href="{% url 'article-add' %}">Добавить</a> |
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'article-add' %}">Добавить</a> |
+    {% endif %}
     {% if not request.user.is_authenticated %} 
         <a href="{% url 'login' %}">Sing in</a>
     {% else %}

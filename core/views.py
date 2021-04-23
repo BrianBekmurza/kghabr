@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
 from .models import Article, Author
 
 User = get_user_model()
@@ -95,6 +96,7 @@ def edit_article(request, pk):
 
     return render(request, 'update.html', {"article": article})
 
+@login_required(login_url='/login/')
 def add_article(request):
     if request.method == "GET":
         return render(request, "add_article.html")
@@ -102,12 +104,14 @@ def add_article(request):
         form = request.POST
         title = form.get("title")
         text = form.get("text")
+        picture = request.FILES.get('get')
         # new_article = Article (title=title, text=text)
         # new_article.save()
 
         new_article = Article()
         new_article.title = title
         new_article.text = text
+        new_article.picture = picture
         user = request.user
         if not Author.objects.filter(user==user).exists():
             author = Author(user=user, nik=user.username)
