@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %} 
 <form method='POST' enctype="multipart/form-data">{% csrf_token %}
-    {{ form.as_p }}
+    {% bootstrap_form form %}
     <button>Добавить</button>
 </form>
 
