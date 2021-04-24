@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 
-from .models import Article, Author
-from .forms import ArticleForm
-from .filters import ArticleFilter
+from ..models import Article, Author
+from ..forms import ArticleForm
+from ..filters import ArticleFilter
 
-User = get_user_model()
 # Create your views here.
 
 def sing_in(request):
@@ -151,6 +150,7 @@ def delete_article(request, id):
     return HttpResponse("Статья успешно удалена")
 
 
+
 @permission_required('core.delete_article')
 def hide_article(request, id):
     article = Article.objects.get(id=id)
@@ -169,3 +169,4 @@ def search(request):
 def top(request):
     articles = Article.objects.order_by("-views")[:3]
     return render(request, "top.html", {"articles": articles})
+
