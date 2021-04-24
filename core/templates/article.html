@@ -11,8 +11,8 @@
             {% endfor %}
         </ol>
     </p>
-    <p>Создано: {{ article.created_at }}</p>
-    <p>Изменено: {{ article.updated_at }}</p>
+    <p>Создано: {{ article.created_at | date:"d.m.Y" }}</p>
+    <p>Изменено: {{ article.updated_at | date:"d.m.Y H:i"}}</p>
     <p>
         Автор:
         <ul>
