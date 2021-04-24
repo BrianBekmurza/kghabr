@@ -3,7 +3,12 @@
 {% block content %}
     <h1>Статьи</h1>
     <ul>
-    {% for article in articles %}
+    <form method='get'>
+        {{ articles_filter.form.as_p }}
+        <input type="submit">
+    </form>
+    <hr>
+    {% for article in articles_filter.qs %}
         <a href="{% url 'article' article.id %}"><li>{{article.title}}</li></a>
     {% endfor %}
     </ul>
